@@ -1,0 +1,425 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > student</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example</a>
+</div>
+
+<h1>Coverage Summary for Class: student (org.example)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">student</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (195/234)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example;
+&nbsp;
+&nbsp;import java.sql.Connection;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.sql.Statement;
+&nbsp;import java.util.Scanner;
+&nbsp;import java.sql.*;
+&nbsp;
+<b class="nc">&nbsp;public class student {</b>
+&nbsp;
+<b class="fc">&nbsp;    static Scanner sc = new Scanner(System.in);</b>
+&nbsp;    static String student_id;
+<b class="fc">&nbsp;    static Statement st=null;</b>
+&nbsp;
+&nbsp;    public static void Authentication() throws SQLException, ClassNotFoundException {
+<b class="fc">&nbsp;        Class.forName(&quot;org.postgresql.Driver&quot;);</b>
+<b class="fc">&nbsp;        Connection conn= DriverManager.getConnection(&quot;jdbc:postgresql://localhost:5432/postgres&quot;,&quot;postgres&quot;, &quot;12345678&quot;);</b>
+<b class="fc">&nbsp;        st=conn.createStatement();</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        System.out.println(&quot;Enter username&quot;);</b>
+<b class="fc">&nbsp;        student_id = sc.nextLine();</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Enter password&quot;);</b>
+<b class="fc">&nbsp;        String password= sc.nextLine();</b>
+&nbsp;
+<b class="fc">&nbsp;        String q=String.format(&quot;Select * From student_login where student_id=&#39;%s&#39;;&quot;,student_id);</b>
+<b class="fc">&nbsp;        ResultSet rs = st.executeQuery(q);</b>
+<b class="fc">&nbsp;        rs.next();</b>
+<b class="fc">&nbsp;        if(rs.getRow()==0){</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Incorrect UserName!&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="fc">&nbsp;        String pwd = rs.getString(&quot;student_pass&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        if(pwd.equals(password)) {</b>
+<b class="fc">&nbsp;            dashboard();</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="fc">&nbsp;            System.out.println(&quot;Incorrect Password&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;    public static void dashboard() throws SQLException {
+<b class="fc">&nbsp;        while(true){        System.out.println(&quot;Enter &#39;A&#39; to Add course()&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Enter &#39;B&#39; to Drop course&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Enter &#39;C&#39; to  view grade&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Enter &#39;-1&#39; to go Back&quot;);</b>
+<b class="fc">&nbsp;            String input = sc.nextLine();</b>
+<b class="fc">&nbsp;            if(input.equals(&quot;A&quot;)){</b>
+<b class="fc">&nbsp;                Add_course();</b>
+<b class="fc">&nbsp;            } else if (input.equals(&quot;B&quot;)) {</b>
+<b class="fc">&nbsp;                Drop_course();</b>
+<b class="fc">&nbsp;            } else if (input.equals(&quot;C&quot;)) {</b>
+<b class="fc">&nbsp;                view_grade();</b>
+<b class="fc">&nbsp;            } else if (input.equals(&quot;-1&quot;)) {</b>
+&nbsp;                return;        }else{
+<b class="fc">&nbsp;                System.out.println(&quot;Enter a valid Input&quot;);        }</b>
+<b class="fc">&nbsp;        }}</b>
+&nbsp;    public static void Add_course() throws SQLException {
+<b class="fc">&nbsp;        System.out.println(&quot;Enter student id&quot;);</b>
+<b class="fc">&nbsp;        String student_id=sc.nextLine();</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Enter course id&quot;);</b>
+<b class="fc">&nbsp;        String course_id=sc.nextLine();</b>
+<b class="fc">&nbsp;        String q1= String.format(&quot;Select * From student_data where student_id=&#39;%s&#39; and course_id=&#39;%s&#39;;&quot;,student_id,course_id);</b>
+<b class="fc">&nbsp;        ResultSet r1=st.executeQuery(q1);</b>
+<b class="fc">&nbsp;        r1.next();</b>
+<b class="fc">&nbsp;        if(r1.getRow()!=0)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;Course already enrolled&quot;);</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="fc">&nbsp;            String q2 = String.format(&quot;Select * From course_offer where course_id=&#39;%s&#39;;&quot;,course_id);</b>
+<b class="fc">&nbsp;            ResultSet r2 = st.executeQuery(q2);</b>
+<b class="fc">&nbsp;            r2.next();</b>
+<b class="fc">&nbsp;            String curr=&quot;completed&quot;;</b>
+<b class="fc">&nbsp;            if(r2.getRow() == 0) {</b>
+<b class="fc">&nbsp;                System.out.println(&quot;Course not floated&quot;);</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="fc">&nbsp;            int z11=0;</b>
+<b class="fc">&nbsp;            String xy=r2.getString(&quot;prerequisite&quot;);</b>
+<b class="fc">&nbsp;            if(xy.equals(&quot;NA&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                z11=-1;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            String q3 = String.format(&quot;Select * From student_data where student_id=&#39;%s&#39; and current_status=&#39;%s&#39; and course_id=&#39;%s&#39;;&quot;,student_id,curr,xy);</b>
+<b class="fc">&nbsp;            ResultSet r3 = st.executeQuery(q3);</b>
+<b class="fc">&nbsp;            r3.next();</b>
+<b class="fc">&nbsp;            if (r3.getRow() == 0 &amp;&amp; z11==0) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Course not enrolled because of prerequisite&quot;);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                float x = compute_cgpa();</b>
+<b class="fc">&nbsp;                String q4 = String.format(&quot;Select * From course_offer where course_id=&#39;%s&#39;;&quot;,course_id);</b>
+<b class="fc">&nbsp;                ResultSet r4 = st.executeQuery(q4);</b>
+<b class="fc">&nbsp;                r4.next();</b>
+<b class="fc">&nbsp;                String y = r4.getString(&quot;cgpa_requirement&quot;);</b>
+<b class="fc">&nbsp;                float z = Float.parseFloat(y);</b>
+<b class="fc">&nbsp;                if (x &lt; z) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Course not enrolled because of cgpa_requirement&quot;);</b>
+&nbsp;                } else {
+&nbsp;                    float sc;
+<b class="fc">&nbsp;                    String q5 =String.format(&quot;Select * From student_data where student_id=&#39;%s&#39;;&quot;,student_id);</b>
+<b class="fc">&nbsp;                    ResultSet r5 = st.executeQuery(q5);</b>
+<b class="fc">&nbsp;                    while (r5.next()) {</b>
+<b class="fc">&nbsp;                        String scs = r5.getString(&quot;course_credit&quot;);</b>
+<b class="fc">&nbsp;                        sc = Float.parseFloat(scs);</b>
+<b class="fc">&nbsp;                    }</b>
+&nbsp;                    float sy;
+<b class="fc">&nbsp;                    String q6 =String.format(&quot;Select * From student where student_id=&#39;%s&#39;;&quot;,student_id);</b>
+<b class="fc">&nbsp;                    ResultSet r6 = st.executeQuery(q6);</b>
+<b class="fc">&nbsp;                    r6.next();</b>
+<b class="fc">&nbsp;                    String sys = r6.getString(&quot;student_batch&quot;);</b>
+<b class="fc">&nbsp;                    int syss = Integer.parseInt(sys);</b>
+<b class="fc">&nbsp;                    String q7 = String.format(&quot;Select * From current_status;&quot;);</b>
+<b class="fc">&nbsp;                    ResultSet r7 = st.executeQuery(q7);</b>
+<b class="fc">&nbsp;                    r7.next();</b>
+<b class="fc">&nbsp;                    int student_sem = Integer.parseInt(r7.getString(&quot;current_semester&quot;));</b>
+<b class="fc">&nbsp;                    int student_year = Integer.parseInt(r7.getString(&quot;current_year&quot;)) - syss;</b>
+<b class="fc">&nbsp;                    String q8 = String.format(&quot;Select * From student_data where student_id=&#39;%s&#39; and course_semester=&#39;%s&#39; and course_year=&#39;%s&#39;;&quot;,student_id,student_sem,student_year);</b>
+<b class="fc">&nbsp;                    ResultSet r8 = st.executeQuery(q8);</b>
+<b class="fc">&nbsp;                    r8.next();</b>
+<b class="fc">&nbsp;                    float student_credit_com = 0;</b>
+<b class="fc">&nbsp;                    while (r8.next()) {</b>
+<b class="fc">&nbsp;                        student_credit_com += Float.parseFloat(r8.getString(&quot;course_credit&quot;));</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    String q9 = String.format(&quot;Select * From Total_credit where current_semester=&#39;1&#39;;&quot;);</b>
+<b class="fc">&nbsp;                    ResultSet r9 = st.executeQuery(q9);</b>
+<b class="fc">&nbsp;                    r9.next();</b>
+<b class="fc">&nbsp;                    Float sem11_credit = (float) 0;</b>
+<b class="fc">&nbsp;                    sem11_credit = Float.parseFloat(r9.getString(&quot;Total_credit&quot;));</b>
+<b class="fc">&nbsp;                    String q10 = String.format(&quot;Select * From Total_credit where current_semester=&#39;2&#39;;&quot;);</b>
+<b class="fc">&nbsp;                    ResultSet r10 = st.executeQuery(q10);</b>
+<b class="fc">&nbsp;                    r10.next();</b>
+<b class="fc">&nbsp;                    Float sem21_credit = (float) 0;</b>
+<b class="fc">&nbsp;                    sem21_credit = Float.parseFloat(r10.getString(&quot;Total_credit&quot;));</b>
+<b class="fc">&nbsp;                    float sem_credit=0;</b>
+<b class="fc">&nbsp;                    if (student_sem==1 &amp;&amp; student_year == 1) {</b>
+<b class="nc">&nbsp;                        sem_credit = sem11_credit;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    if (student_sem == 2 &amp;&amp; student_year == 1) {</b>
+<b class="nc">&nbsp;                        sem_credit = sem21_credit;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    if (student_sem == 1 &amp;&amp; student_year == 2) {</b>
+<b class="nc">&nbsp;                        sem_credit = (float) (1.25 * (sem11_credit + sem21_credit));</b>
+<b class="nc">&nbsp;                        sem_credit = (float) sem_credit / 2;</b>
+&nbsp;
+&nbsp;                    }
+<b class="fc">&nbsp;                    if (student_sem == 2 &amp;&amp; student_year == 2) {</b>
+<b class="nc">&nbsp;                        sem_credit = (float) (5 * sem11_credit + 13 * sem21_credit);</b>
+<b class="nc">&nbsp;                        sem_credit = (float) sem_credit / 16;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    if (student_sem == 1 &amp;&amp; student_year == 3) {</b>
+<b class="nc">&nbsp;                        sem_credit = (float) (15 * sem11_credit + 23 * sem21_credit);</b>
+<b class="nc">&nbsp;                        sem_credit = (float) sem_credit / 32;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    if (student_sem == 2 &amp;&amp; student_year == 3) {</b>
+<b class="fc">&nbsp;                        sem_credit = (float) (25 * sem11_credit + 49 * sem21_credit);</b>
+<b class="fc">&nbsp;                        sem_credit = (float) sem_credit / 64;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    if (student_sem == 1 &amp;&amp; student_year == 4) {</b>
+<b class="nc">&nbsp;                        sem_credit = (float) (55 * sem11_credit + 95 * sem21_credit);</b>
+<b class="nc">&nbsp;                        sem_credit = (float) sem_credit / 128;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    if (student_sem == 2 &amp;&amp; student_year == 4) {</b>
+<b class="nc">&nbsp;                        sem_credit = (float) (105 * sem11_credit + 193 * sem21_credit);</b>
+<b class="nc">&nbsp;                        sem_credit = (float) sem_credit / 256;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    float avilable_creadit= sem_credit-student_credit_com;</b>
+<b class="fc">&nbsp;                    String q11 =String.format(&quot;Select * From course_offer where course_id=&#39;%s&#39; and course_semester=&#39;%s&#39; and course_year=&#39;%s&#39;;&quot;,course_id,student_sem,student_year);</b>
+<b class="fc">&nbsp;                    ResultSet r11 = st.executeQuery(q11);</b>
+<b class="fc">&nbsp;                    r11.next();</b>
+<b class="fc">&nbsp;                    float need_credit=0;</b>
+<b class="fc">&nbsp;                    System.out.println();</b>
+<b class="fc">&nbsp;                    if(r11.getRow()==0)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        System.out.println(&quot;Course not enrolled/not floted&quot;);</b>
+&nbsp;                        return;
+&nbsp;                    }
+<b class="fc">&nbsp;                    need_credit=Float.parseFloat(r11.getString(&quot;course_credit&quot;));</b>
+&nbsp;
+<b class="fc">&nbsp;                    if(avilable_creadit&lt;need_credit)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        System.out.println(&quot;Course not enrolled because of credit limit&quot;);</b>
+&nbsp;                    }
+&nbsp;                    else
+&nbsp;                    {
+<b class="fc">&nbsp;                        String q13 = String.format(&quot;Select * From course_catalog where course_id=&#39;%s&#39;;&quot;,course_id);</b>
+<b class="fc">&nbsp;                        ResultSet r13 = st.executeQuery(q13);</b>
+<b class="fc">&nbsp;                        r13.next();</b>
+<b class="fc">&nbsp;                        String coursename=r13.getString(&quot;course_name&quot;);</b>
+<b class="fc">&nbsp;                        String NA=&quot;NA&quot;;</b>
+<b class="fc">&nbsp;                        String Runn=&quot;running&quot;;</b>
+<b class="fc">&nbsp;                        String q12=String.format(&quot;insert into student_data values (&#39;%s&#39;,&#39;%s&#39;,&#39;%s&#39;,&#39;%s&#39;,&#39;%s&#39;,&#39;%s&#39;,&#39;%s&#39;,&#39;%s&#39;);&quot;,student_id,course_id,coursename,Runn,need_credit,student_sem,student_year,NA);</b>
+<b class="fc">&nbsp;                        st.executeUpdate(q12);</b>
+<b class="fc">&nbsp;                        System.out.println(&quot;Course enrolled successfully&quot;);</b>
+&nbsp;                    }
+&nbsp;
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void Drop_course() throws SQLException {
+<b class="fc">&nbsp;        System.out.println(&quot;Enter student id&quot;);</b>
+<b class="fc">&nbsp;        String student_id=sc.nextLine();</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Enter course id&quot;);</b>
+<b class="fc">&nbsp;        String course_id=sc.nextLine();</b>
+<b class="fc">&nbsp;        String q1 =String.format(&quot;Select * From student where student_id=&#39;%s&#39;;&quot;,student_id);</b>
+<b class="fc">&nbsp;        ResultSet r1 = st.executeQuery(q1);</b>
+<b class="fc">&nbsp;        r1.next();</b>
+<b class="fc">&nbsp;        String sys = r1.getString(&quot;student_batch&quot;);</b>
+<b class="fc">&nbsp;        int syss = Integer.parseInt(sys);</b>
+<b class="fc">&nbsp;        String q7 = String.format(&quot;Select * From current_status;&quot;);</b>
+<b class="fc">&nbsp;        ResultSet r7 = st.executeQuery(q7);</b>
+<b class="fc">&nbsp;        r7.next();</b>
+<b class="fc">&nbsp;        int student_sem = Integer.parseInt(r7.getString(&quot;current_semester&quot;));</b>
+<b class="fc">&nbsp;        int student_year = Integer.parseInt(r7.getString(&quot;current_year&quot;)) - syss;</b>
+<b class="fc">&nbsp;        String Runn=&quot;running&quot;;</b>
+<b class="fc">&nbsp;        String q2 = String.format(&quot;Select * From student_data where student_id=&#39;%s&#39; and course_id=&#39;%s&#39; and current_status=&#39;%s&#39; and course_semester=&#39;%s&#39; and course_year=&#39;%s&#39;;&quot;,student_id,course_id,Runn,student_sem,student_year);</b>
+<b class="fc">&nbsp;        ResultSet r2 = st.executeQuery(q2);</b>
+<b class="fc">&nbsp;        r2.next();</b>
+<b class="fc">&nbsp;        if(r2.getRow()==0)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.print(&quot;course already withdrawn&quot;);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            String q3= String.format(&quot;delete from student_data where student_id=&#39;%s&#39; and course_id=&#39;%s&#39;;&quot;,student_id,course_id);</b>
+<b class="fc">&nbsp;            st.executeUpdate(q3);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;course withdrawn successfully&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;    public static void view_grade() throws SQLException {
+<b class="fc">&nbsp;        System.out.println(&quot;Enter student id&quot;);</b>
+<b class="fc">&nbsp;        String student_id=sc.nextLine();</b>
+<b class="fc">&nbsp;        String q1=String.format(&quot;Select * From student_data where student_id=&#39;%s&#39;;&quot;,student_id);</b>
+<b class="fc">&nbsp;        ResultSet r1=st.executeQuery(q1);</b>
+<b class="fc">&nbsp;        boolean flag = false;</b>
+<b class="fc">&nbsp;        while(r1.next()) {</b>
+<b class="fc">&nbsp;            flag = true;</b>
+<b class="fc">&nbsp;            System.out.println(&quot;student grade ==&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;student_id&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;=&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(r1.getString(&quot;student_id&quot;)+&quot; &quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;course_id&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;=&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(r1.getString(&quot;course_id&quot;)+&quot; &quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;course_name&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;=&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(r1.getString(&quot;course_name&quot;)+&quot; &quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;current_status&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;=&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(r1.getString(&quot;current_status&quot;)+&quot; &quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;course_credit&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;=&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(r1.getString(&quot;course_credit&quot;)+&quot; &quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;course_semester&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;=&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(r1.getString(&quot;course_semester&quot;)+&quot; &quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;course_year&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;=&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(r1.getString(&quot;course_year&quot;)+&quot; &quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;student_grade&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;=&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(r1.getString(&quot;student_grade&quot;)+&quot; &quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(!flag)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;No such Student in database&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    public static float compute_cgpa() throws SQLException {
+<b class="fc">&nbsp;        String q1 = String.format(&quot;Select * From student_data where student_id=&#39;%s&#39;;&quot;,student_id);</b>
+<b class="fc">&nbsp;        ResultSet r1 = st.executeQuery(q1);</b>
+<b class="fc">&nbsp;        float x = 0;</b>
+<b class="fc">&nbsp;        float y = 0;</b>
+<b class="fc">&nbsp;        float z = 0;</b>
+<b class="fc">&nbsp;        while (r1.next()) {</b>
+<b class="fc">&nbsp;            if (r1.getString(&quot;student_grade&quot;).equals(&quot;A&quot;)) {</b>
+<b class="nc">&nbsp;                String s = r1.getString(&quot;course_credit&quot;);</b>
+<b class="nc">&nbsp;                x += Integer.parseInt(s)* 10;</b>
+<b class="nc">&nbsp;                y = y + Integer.parseInt(s);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (r1.getString(&quot;student_grade&quot;).equals(&quot;A-&quot;)) {</b>
+<b class="nc">&nbsp;                String s = r1.getString(&quot;course_credit&quot;);</b>
+<b class="nc">&nbsp;                x += Integer.parseInt(s)* 9;</b>
+<b class="nc">&nbsp;                y = y + Integer.parseInt(s);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (r1.getString(&quot;student_grade&quot;).equals(&quot;B&quot;)) {</b>
+<b class="nc">&nbsp;                String s = r1.getString(&quot;course_credit&quot;);</b>
+<b class="nc">&nbsp;                x += Integer.parseInt(s)* 8;</b>
+<b class="nc">&nbsp;                y = y + Integer.parseInt(s);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (r1.getString(&quot;student_grade&quot;).equals(&quot;B-&quot;)) {</b>
+&nbsp;
+<b class="nc">&nbsp;                String s = r1.getString(&quot;course_credit&quot;);</b>
+<b class="nc">&nbsp;                x += Integer.parseInt(s)* 7;</b>
+<b class="nc">&nbsp;                y = y + Integer.parseInt(s);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (r1.getString(&quot;student_grade&quot;).equals(&quot;C&quot;)) {</b>
+&nbsp;
+<b class="nc">&nbsp;                String s = r1.getString(&quot;course_credit&quot;);</b>
+<b class="nc">&nbsp;                x += Integer.parseInt(s)* 6;</b>
+<b class="nc">&nbsp;                y = y + Integer.parseInt(s);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (r1.getString(&quot;student_grade&quot;).equals(&quot;C-&quot;)) {</b>
+<b class="nc">&nbsp;                String s = r1.getString(&quot;course_credit&quot;);</b>
+<b class="nc">&nbsp;                x += Integer.parseInt(s)* 5;</b>
+<b class="nc">&nbsp;                y = y + Integer.parseInt(s);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (r1.getString(&quot;student_grade&quot;).equals(&quot;D&quot;)) {</b>
+<b class="nc">&nbsp;                String s = r1.getString(&quot;course_credit&quot;);</b>
+<b class="nc">&nbsp;                x += Integer.parseInt(s)* 4;</b>
+<b class="nc">&nbsp;                y = y + Integer.parseInt(s);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="fc">&nbsp;        z=x/y;</b>
+<b class="fc">&nbsp;        return z;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-19 18:34</div>
+</div>
+</body>
+</html>
